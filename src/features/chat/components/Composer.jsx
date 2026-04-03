@@ -2,8 +2,8 @@ import { useState } from "react";
 import { postChat } from "../api.js";
 import { MicButton } from "./MicButton.jsx";
 
-/** @param {{ onMessageSent?: () => void | Promise<void> }} props */
-export function Composer({ onMessageSent }) {
+/** @param {{ onMessageSent?: () => void | Promise<void>, onSendStart?: () => void }} props */
+export function Composer({ onMessageSent, onSendStart }) {
   const [value, setValue] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(/** @type {string | null} */ (null));
@@ -13,6 +13,7 @@ export function Composer({ onMessageSent }) {
     const text = value.trim();
     if (!text || pending) return;
     setError(null);
+    onSendStart?.();
     setPending(true);
     try {
       await postChat(text);
