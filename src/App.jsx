@@ -1,17 +1,39 @@
 import { AppProviders } from "@/app/AppProviders.jsx";
-import { ChatLayout } from "@/features/chat/components/ChatLayout.jsx";
-import { Composer } from "@/features/chat/components/Composer.jsx";
-import { MessageList } from "@/features/chat/components/MessageList.jsx";
-import { ThinkingPanel } from "@/features/chat/components/ThinkingPanel.jsx";
+import { LoginPage } from "@/features/auth/LoginPage.jsx";
+import { useAuth } from "@/features/auth/useAuth.js";
+import { ChatPage } from "@/features/chat/ChatPage.jsx";
+import { Navigate, Route, Routes } from "react-router-dom";
+
+function ProtectedRoute({ children }) {
+  const { user, bootstrapping } = useAuth();
+  if (bootstrapping) {
+    return (
+      <div className="flex min-h-svh items-center justify-center bg-zinc-950 text-zinc-400">
+        Đang tải…
+      </div>
+    );
+  }
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
 
 function App() {
   return (
     <AppProviders>
-      <ChatLayout>
-        <MessageList />
-        <ThinkingPanel />
-        <Composer />
-      </ChatLayout>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </AppProviders>
   );
 }
