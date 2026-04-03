@@ -138,3 +138,62 @@ export async function fetchJson(path, options = {}) {
     throw e;
   }
 }
+
+/**
+ * Multipart (FormData) + JSON `{ success, data }` giống `fetchJson`, có refresh 401.
+ * @param {string} path
+ * @param {FormData} formData
+ * @param {object} [options]
+ * @param {string|null|undefined} [options.token]
+ * @param {boolean} [options.auth]
+ * @param {AbortSignal} [options.signal]
+ */
+export async function fetchFormData(path, formData, options = {}) {
+  const { token: tokenOption, auth = true, signal } = options;
+
+  let bearer =
+    auth === false
+      ? null
+      : tokenOption !== undefined && tokenOption !== null
+        ? tokenOption
+        : getAccessToken();
+
+  const requestOnce = async (access) => {
+    const headers = { Accept: "application/json" };
+    if (access) headers.Authorization = `Bearer ${access}`;
+    const res = await fetch(apiUrl(path), {
+      method: "POST",
+      headers,
+      body: formData,
+      signal,
+    });
+    const text = await res.text();
+    /** @type {{ success?: boolean, data?: unknown, message?: string }} */
+    let data = {};
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      throw new ApiError(text || "Phản hồi không phải JSON", res.status);
+    }
+    if (!res.ok || data.success === false) {
+      const msg = data.message || res.statusText || "Lỗi mạng";
+      throw new ApiError(msg, res.status, data);
+    }
+    return data.data;
+  };
+
+  try {
+    return await requestOnce(bearer || null);
+  } catch (e) {
+    if (
+      e instanceof ApiError &&
+      e.status === 401 &&
+      auth !== false &&
+      bearer
+    ) {
+      const nextAccess = await tryRefreshAccessToken();
+      if (nextAccess) return await requestOnce(nextAccess);
+    }
+    throw e;
+  }
+}

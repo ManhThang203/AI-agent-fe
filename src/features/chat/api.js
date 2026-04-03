@@ -1,4 +1,4 @@
-import { fetchJson } from "@/lib/http.js";
+import { fetchFormData, fetchJson } from "@/lib/http.js";
 
 /**
  * @param {number} [limit]
@@ -18,4 +18,16 @@ export function postChat(input) {
     method: "POST",
     json: { input },
   });
+}
+
+/**
+ * STT — multipart một file; field `audio` (BE: multer any).
+ * @param {Blob} blob
+ * @param {string} [filename]
+ * @returns {Promise<{ text: string }>}
+ */
+export function transcribeAudio(blob, filename = "speech.webm") {
+  const fd = new FormData();
+  fd.append("audio", blob, filename);
+  return fetchFormData("/api/agentTranscribe/transcribe", fd);
 }
