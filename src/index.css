@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+
+/* Light theme v1 — semantic tokens (spec 2026-04-05) */
+@theme {
+  --color-background: hsl(210 20% 98%);
+  --color-surface: hsl(0 0% 100%);
+  --color-border: hsl(214 20% 88%);
+  --color-text: hsl(222 47% 11%);
+  --color-text-muted: hsl(215 16% 47%);
+  --color-primary: hsl(221 83% 53%);
+  --color-primary-foreground: hsl(210 40% 98%);
+  --color-danger: hsl(0 72% 51%);
+  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+/* Trang account/login khi theme = dark (chat Grok giữ nền cố định) */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  --color-background: hsl(222 47% 6%);
+  --color-surface: hsl(222 40% 10%);
+  --color-border: hsl(217 19% 22%);
+  --color-text: hsl(210 20% 96%);
+  --color-text-muted: hsl(215 16% 65%);
+  --color-primary: hsl(217 91% 60%);
+  --color-primary-foreground: hsl(210 40% 98%);
+  --color-danger: hsl(0 72% 55%);
+}

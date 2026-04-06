@@ -1,0 +1,12 @@
+{
+  "appName": "AI Agent",
+  "loading": "Đang tải…",
+  "error": "Lỗi",
+  "back": "Quay lại",
+  "send": "Gửi",
+  "close": "Đóng",
+  "tabChat": "Chat",
+  "tabUsers": "Người dùng",
+  "tabAccount": "Tài khoản",
+  "realtimeWarn": "Không kết nối được cập nhật trực tiếp. Chat vẫn hoạt động."
+}

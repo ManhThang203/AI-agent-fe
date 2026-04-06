@@ -1,0 +1,8 @@
+{
+  "title": "Người dùng",
+  "detail": "Hồ sơ",
+  "username": "Tên người dùng",
+  "email": "Email",
+  "notFound": "Không tìm thấy người dùng",
+  "loadError": "Không tải được danh sách"
+}

@@ -1,0 +1,12 @@
+{
+  "appName": "AI Agent",
+  "loading": "Loading…",
+  "error": "Error",
+  "back": "Back",
+  "send": "Send",
+  "close": "Close",
+  "tabChat": "Chat",
+  "tabUsers": "Users",
+  "tabAccount": "Account",
+  "realtimeWarn": "Live updates unavailable. Chat still works."
+}

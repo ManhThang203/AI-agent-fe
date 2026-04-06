@@ -1,0 +1,8 @@
+{
+  "title": "Users",
+  "detail": "Profile",
+  "username": "Username",
+  "email": "Email",
+  "notFound": "User not found",
+  "loadError": "Could not load list"
+}
